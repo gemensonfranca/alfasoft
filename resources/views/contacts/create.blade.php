@@ -12,6 +12,10 @@
             padding: 20px;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         .container {
             max-width: 500px;
             margin: auto;

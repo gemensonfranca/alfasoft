@@ -15,6 +15,10 @@
             margin: 0;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         .container {
             background: #fff;
             padding: 30px;

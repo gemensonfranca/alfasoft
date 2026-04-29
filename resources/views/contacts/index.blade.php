@@ -6,6 +6,15 @@
 
 <a href="{{ route('contacts.create') }}">Novo Contato</a>
 
+@if(auth()->check())
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">Sair</button>
+    </form>
+@else
+    <a href="{{ route('login') }}">Login</a>
+@endif
+
 <table border="1">
     <tr>
         <th>Nome</th>

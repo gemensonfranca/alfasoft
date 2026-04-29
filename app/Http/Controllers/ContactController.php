@@ -29,15 +29,35 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name'    => 'required|min:5',
-            'contact' => 'required|digits:9|unique:contacts',
-            'email'   => 'required|email|unique:contacts'
-        ]);
+        $data = $request->validate(
+            [
+                'name'    => 'required|min:5',
+                'contact' => 'required|digits:9|unique:contacts,contact',
+                'email'   => 'required|email|unique:contacts,email',
+            ],
+            [
+                'name.required'    => 'O nome é obrigatório.',
+                'name.min'         => 'O nome deve ter no mínimo 5 caracteres.',
+
+                'contact.required' => 'O telefone é obrigatório.',
+                'contact.digits'   => 'O telefone deve conter exatamente 9 dígitos.',
+                'contact.unique'   => 'Este telefone já está cadastrado.',
+
+                'email.required'   => 'O email é obrigatório.',
+                'email.email'      => 'Informe um email válido.',
+                'email.unique'     => 'Este email já está cadastrado.',
+            ],
+            [
+                'name'    => 'nome',
+                'contact' => 'telefone',
+                'email'   => 'email',
+            ]
+        );
 
         Contact::create($data);
 
-        return redirect()->route('contacts.index')
+        return redirect()
+            ->route('contacts.index')
             ->with('success', 'Contato criado com sucesso!');
     }
 
@@ -62,16 +82,36 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        $data = $request->validate([
-            'name' => 'required|min:5',
-            'contact' => 'required|digits:9|unique:contacts,contact,' . $contact->id,
-            'email' => 'required|email|unique:contacts,email,' . $contact->id
-        ]);
+        $data = $request->validate(
+            [
+                'name'    => 'required|min:5',
+                'contact' => 'required|digits:9|unique:contacts,contact,' . $contact->id,
+                'email'   => 'required|email|unique:contacts,email,' . $contact->id,
+            ],
+            [
+                'name.required'    => 'O nome é obrigatório.',
+                'name.min'         => 'O nome deve ter no mínimo 5 caracteres.',
+
+                'contact.required' => 'O telefone é obrigatório.',
+                'contact.digits'   => 'O telefone deve conter exatamente 9 dígitos.',
+                'contact.unique'   => 'Este telefone já está cadastrado.',
+
+                'email.required'   => 'O email é obrigatório.',
+                'email.email'      => 'Informe um email válido.',
+                'email.unique'     => 'Este email já está cadastrado.',
+            ],
+            [
+                'name'    => 'nome',
+                'contact' => 'telefone',
+                'email'   => 'email',
+            ]
+        );
 
         $contact->update($data);
 
-        return redirect()->route('contacts.index')
-            ->with('success', 'Contato atualizado!');
+        return redirect()
+            ->route('contacts.index')
+            ->with('success', 'Contato atualizado com sucesso!');
     }
 
     /**
